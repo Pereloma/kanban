@@ -6,7 +6,7 @@ import 'package:kanban/data/authentication_repository.dart';
 import 'package:kanban/data/user_repository.dart';
 import 'package:meta/meta.dart';
 
-part '../authentication_event.dart';
+part 'authentication_event.dart';
 part 'authentication_state.dart';
 
 class AuthenticationBloc
