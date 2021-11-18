@@ -11,7 +11,7 @@ class LoadingPage extends StatelessWidget{
   Widget build(BuildContext context) {
     return const SafeArea(
         child: Center(
-          child: LinearProgressIndicator(),
+          child: CircularProgressIndicator(),
         )
     );
   }
