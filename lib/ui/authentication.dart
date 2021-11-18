@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 class Authentication extends StatelessWidget{
   const Authentication({Key? key}) : super(key: key);
 
+  static Route route() {
+    return MaterialPageRoute(builder: (_) => const Authentication());
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
