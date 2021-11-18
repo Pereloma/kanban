@@ -30,7 +30,9 @@ class AuthenticationRepository {
     );
     if(res.data != null && res.data!.containsKey('token')){
       UserRepository.setUser(res.data!['token'].toString());
+      print (res.data!['token']);
     }
+
   }
 
   void logOut() {

@@ -43,10 +43,18 @@ class Authentication extends StatelessWidget {
                   const Padding(padding: EdgeInsets.all(8.0)),
                   _passTextField(),
                   const Padding(padding: EdgeInsets.all(16.0)),
-                  FloatingActionButton.extended(
-                    onPressed: () {},
-                    label: const Text("Log In"),
-                  )
+                  BlocBuilder<LoginBloc, LoginState>(
+                    buildWhen: (previous, current) => previous.status != current.status,
+                    builder: (context, state) {
+                      return FloatingActionButton.extended(
+                        key: const Key('_button_Authentication_Page'),
+                        onPressed: () {
+                          context.read<LoginBloc>().add(const LoginSubmitted());
+                        },
+                        label: const Text("Log In"),
+                  );
+  },
+)
                 ],
               ),
             ),
