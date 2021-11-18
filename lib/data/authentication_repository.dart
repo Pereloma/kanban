@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
+import 'package:kanban/data/user_repository.dart';
 
 enum AuthenticationStatus { unknown, authenticated, unauthenticated }
 
@@ -14,11 +15,11 @@ class AuthenticationRepository {
     yield* _controller.stream;
   }
 
-  Future<Map<String, dynamic>> logIn({
+  Future<void> logIn({
     required String username,
     required String password,
   }) async {
-    Response<Map<String, dynamic>> res = await _dio.post(
+    Response<Map<String,dynamic>> res = await _dio.post(
       "https://trello.backend.tests.nekidaem.ru/api/v1/users/login/",
       data: FormData.fromMap({
         "username": username,
@@ -27,7 +28,9 @@ class AuthenticationRepository {
       options: Options(responseType: ResponseType.json,
       )
     );
-    return res.data ?? {};
+    if(res.data != null && res.data!.containsKey('token')){
+      UserRepository.setUser(res.data!['token'].toString());
+    }
   }
 
   void logOut() {
