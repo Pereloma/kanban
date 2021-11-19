@@ -32,8 +32,8 @@ class KanbanApp extends StatelessWidget {
       child: BlocProvider(
         create: (_) =>
             AuthenticationBloc(
-                authenticationRepository: AuthenticationRepository(),
-                userRepository: UserRepository()
+                authenticationRepository: authenticationRepository,
+                userRepository: userRepository
             ),
         child: AppView(),
       ),
@@ -62,8 +62,10 @@ class _AppViewState extends State<AppView> {
                 _navigator.pushAndRemoveUntil(Home.route(),(route) => false);
                 break;
               case AuthenticationStatus.unauthenticated:
-              default:
                 _navigator.pushAndRemoveUntil(Authentication.route(), (route) => false);
+                break;
+              default:
+                print(state.status);
                 break;
             }
         },

@@ -3,12 +3,15 @@ import 'package:equatable/equatable.dart';
 class UserRepository {
   static User? _user;
 
-  Future<User?> getUser() async {
+  static Future<User?> getUser() async {
     if (_user != null) return _user;
   }
 
   static void setUser(String token){
     _user = User(token);
+  }
+  static void remuveUser(){
+    _user = User.empty;
   }
 }
 

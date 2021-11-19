@@ -10,7 +10,6 @@ class AuthenticationRepository {
   final _dio = Dio();
 
   Stream<AuthenticationStatus> get status async* {
-    await Future<void>.delayed(const Duration(seconds: 1));
     yield AuthenticationStatus.unauthenticated;
     yield* _controller.stream;
   }
@@ -20,22 +19,22 @@ class AuthenticationRepository {
     required String password,
   }) async {
     Response<Map<String,dynamic>> res = await _dio.post(
-      "https://trello.backend.tests.nekidaem.ru/api/v1/users/login/",
-      data: FormData.fromMap({
-        "username": username,
-        "password": password
-      }),
-      options: Options(responseType: ResponseType.json,
-      )
+        "https://trello.backend.tests.nekidaem.ru/api/v1/users/login/",
+        data: FormData.fromMap({
+          "username": username,
+          "password": password
+        }),
+        options: Options(responseType: ResponseType.json,
+        )
     );
     if(res.data != null && res.data!.containsKey('token')){
       UserRepository.setUser(res.data!['token'].toString());
-      print (res.data!['token']);
+      _controller.add(AuthenticationStatus.authenticated);
     }
-
   }
 
   void logOut() {
+    UserRepository.remuveUser();
     _controller.add(AuthenticationStatus.unauthenticated);
   }
 
