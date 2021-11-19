@@ -1,10 +1,11 @@
 part of 'card_bloc.dart';
 
-@immutable
 class CardState extends Equatable{
-  RowCardsStatus rowCardsStatus;
-  List<KCard> cardList;
+  final List<KCard> cardList;
+
+
+  CardState(this.cardList);
 
   @override
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [cardList];
 }

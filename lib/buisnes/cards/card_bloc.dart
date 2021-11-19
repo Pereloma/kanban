@@ -10,18 +10,20 @@ part 'card_event.dart';
 part 'card_state.dart';
 
 class CardBloc extends Bloc<CardEvent, CardState> {
-  CardBloc() : super(CardInitial()) {
-    on<CardEvent>((event, emit) {
-      // TODO: implement event handler
+  CardBloc(this._cardsRepository) : super(CardState([])) {
+    on<CardEvent>((event, Emitter<CardState> emit) async {
+      final cards = await _tryGetCards(event.rowCards);
+      return emit(CardState(cards));
     });
   }
+  CardsRepository _cardsRepository;
 
-  Future<Card> _tryGetCards() async {
+  Future<List<KCard>> _tryGetCards(RowCardsStatus rowCardsStatus) async {
     try {
-      final user = await UserRepository.getUser();
-      return user;
+      final cards = (await _cardsRepository.getMapCards(rowCardsStatus)).map((e) => KCard(id: e['id'], row: e['row'], seqNum: e['seq_num'], text: e['text']));
+      return cards.toList();
     } catch (_) {
-      return null;
+      return [];
     }
   }
 }

@@ -62,10 +62,8 @@ class _AppViewState extends State<AppView> {
                 _navigator.pushAndRemoveUntil(Home.route(),(route) => false);
                 break;
               case AuthenticationStatus.unauthenticated:
-                _navigator.pushAndRemoveUntil(Authentication.route(), (route) => false);
-                break;
               default:
-                print(state.status);
+                _navigator.pushAndRemoveUntil(Authentication.route(), (route) => false);
                 break;
             }
         },

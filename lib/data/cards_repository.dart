@@ -10,7 +10,7 @@ class CardsRepository {
   final _dio = Dio();
 
 
-  Future<List<Map<String,dynamic>>> logIn(RowCardsStatus rowCardsStatus) async {
+  Future<List<Map<String,dynamic>>> getMapCards(RowCardsStatus rowCardsStatus) async {
     String authorization = "JWT ${(await UserRepository.getUser())!.token}";
     Response<List<Map<String,dynamic>>> res = await _dio.get(
       "https://trello.backend.tests.nekidaem.ru/api/v1/cards/",
