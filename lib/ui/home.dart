@@ -19,7 +19,6 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     CardBloc _cardBloc = CardBloc(CardsRepository());
-    _cardBloc.add(CardEvent(RowCardsStatus.values[0]));
     return DefaultTabController(
       key: const Key("_Home_DefaultTabController"),
       initialIndex: 0,
@@ -36,8 +35,8 @@ class Home extends StatelessWidget {
               },
             )
           ],
-          bottom: TabBar(
-            tabs: const <Widget>[
+          bottom: const TabBar(
+            tabs: <Widget>[
               Tab(
                 text: 'On hold',
               ),
@@ -51,34 +50,46 @@ class Home extends StatelessWidget {
                 text: 'Approved',
               ),
             ],
-            onTap: (value) =>
-                _cardBloc.add(CardEvent(RowCardsStatus.values[value])),
           ),
         ),
-        body: BlocBuilder<CardBloc, CardState>(
-          bloc: _cardBloc,
-          builder: (context, state) {
-            if (state.isLoad){
-              return const Center(child: CircularProgressIndicator());
-            }
-            return ListView.builder(
-              itemCount: state.cardList!.length,
-              itemBuilder: (context, index) {
-                return _Card(state.cardList![index]);
-              },
-            );
-          },
+        body: TabBarView(
+          children: List.filled(4, _ListCard(_cardBloc)),
         ),
       ),
     );
   }
 }
 
+class _ListCard extends StatelessWidget {
+  const _ListCard(this._cardBloc);
+  final CardBloc _cardBloc;
+
+  @override
+  Widget build(BuildContext context) {
+    _cardBloc.add(CardEvent(RowCardsStatus.values[DefaultTabController.of(context)!.index]));
+    return BlocBuilder<CardBloc, CardState>(
+      bloc: _cardBloc,
+        builder: (context, state) {
+      if (state.isLoad) {
+        return const Center(child: CircularProgressIndicator());
+      }
+      return ListView.builder(
+        itemCount: state.cardList!.length,
+        itemBuilder: (context, index) {
+          return _Card(state.cardList![index]);
+        },
+      );
+    });
+  }
+}
+
 class _Card extends StatelessWidget {
-  _Card(KCard card):
-        id = card.id, text = card.text;
+  _Card(KCard card)
+      : id = card.id,
+        text = card.text;
   final int id;
   final String text;
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -87,9 +98,10 @@ class _Card extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("ID $id",
-              style: TextStyle(fontSize: 10,color: Colors.grey)
-              ,),
+            Text(
+              "ID $id",
+              style: TextStyle(fontSize: 10, color: Colors.grey),
+            ),
             SizedBox(height: 4),
             Text(text),
           ],
@@ -97,6 +109,4 @@ class _Card extends StatelessWidget {
       ),
     );
   }
-
-
 }
