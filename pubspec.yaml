@@ -38,6 +38,7 @@ dependencies:
   flutter_bloc: ^7.3.3
   equatable: ^2.0.0
   formz: ^0.4.1
+  hive: ^2.0.4
 
 dev_dependencies:
   flutter_test:

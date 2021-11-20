@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
 import 'package:kanban/buisnes/models/password.dart';
@@ -51,14 +52,22 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       ) async {
     if (state.status.isValidated) {
       emit(state.copyWith(status: FormzStatus.submissionInProgress));
+      String? nonField;
       try {
         await _authenticationRepository.logIn(
           username: state.username.value,
           password: state.password.value,
         );
         emit(state.copyWith(status: FormzStatus.submissionSuccess));
+      } on DioError catch (e){
+        try{
+          Map<String, dynamic> res = e.response!.data;
+          emit(state.copyWith(status: FormzStatus.submissionFailure,nonField: res["non_field_errors"].toString()));
+        }catch (_){
+          emit(state.copyWith(status: FormzStatus.submissionFailure));
+        }
       } catch (_) {
-        emit(state.copyWith(status: FormzStatus.submissionFailure));
+           emit(state.copyWith(status: FormzStatus.submissionFailure));
       }
     }
   }

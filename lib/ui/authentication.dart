@@ -32,7 +32,7 @@ class Authentication extends StatelessWidget {
                   ScaffoldMessenger.of(context)
                     ..hideCurrentSnackBar()
                     ..showSnackBar(
-                      const SnackBar(content: Text('Authentication Fail')),
+                      SnackBar(content: Text(state.nonField ?? 'Authentication Fail')),
                     );
                 }
               },
@@ -98,6 +98,7 @@ class _passTextField extends StatelessWidget {
       buildWhen: (previous, current) => previous.password != current.password,
       builder: (context, state) {
         return TextField(
+          obscureText: true,
           onChanged: (value)
           => context.read<LoginBloc>().add(LoginPasswordChanged(value)),
           key: const Key('_passTextField_Authentication_Page'),
