@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:hive/hive.dart';
 
 class UserRepository {
   static User? _user;
@@ -15,7 +16,7 @@ class UserRepository {
   }
 }
 
-class User extends Equatable {
+class User extends Equatable{
   const User(this.token);
 
   final String token;

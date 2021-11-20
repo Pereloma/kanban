@@ -4,7 +4,7 @@ import 'package:kanban/data/authentication_repository.dart';
 
 void main() {
   test("login test", () async{
-    Map res =await AuthenticationRepository().logIn(username: "armada", password: "FSH6zBZ0p9yH");
+    Map res = await AuthenticationRepository().logIn(username: "armada", password: "FSH6zBZ0p9yH");
     if(res.containsKey()) {
       return true;
     } else {

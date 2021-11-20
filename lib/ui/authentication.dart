@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:kanban/buisnes/login/login_bloc.dart';
 import 'package:kanban/data/authentication_repository.dart';
+import 'package:kanban/generated/l10n.dart';
 
 class Authentication extends StatelessWidget {
   const Authentication({Key? key}) : super(key: key);
@@ -23,7 +24,7 @@ class Authentication extends StatelessWidget {
             create: (context) {
               return LoginBloc(
                 authenticationRepository:
-                RepositoryProvider.of<AuthenticationRepository>(context),
+                    RepositoryProvider.of<AuthenticationRepository>(context),
               );
             },
             child: BlocListener<LoginBloc, LoginState>(
@@ -32,7 +33,9 @@ class Authentication extends StatelessWidget {
                   ScaffoldMessenger.of(context)
                     ..hideCurrentSnackBar()
                     ..showSnackBar(
-                      SnackBar(content: Text(state.nonField ?? 'Authentication Fail')),
+                      SnackBar(
+                          content: Text(state.nonField ??
+                              S.of(context).Authentication_Fail)),
                     );
                 }
               },
@@ -44,17 +47,18 @@ class Authentication extends StatelessWidget {
                   _passTextField(),
                   const Padding(padding: EdgeInsets.all(16.0)),
                   BlocBuilder<LoginBloc, LoginState>(
-                    buildWhen: (previous, current) => previous.status != current.status,
+                    buildWhen: (previous, current) =>
+                        previous.status != current.status,
                     builder: (context, state) {
                       return FloatingActionButton.extended(
                         key: const Key('_button_Authentication_Page'),
                         onPressed: () {
                           context.read<LoginBloc>().add(const LoginSubmitted());
                         },
-                        label: const Text("Log In"),
-                  );
-  },
-)
+                        label: Text(S.of(context).Log_In),
+                      );
+                    },
+                  )
                 ],
               ),
             ),
@@ -63,7 +67,6 @@ class Authentication extends StatelessWidget {
       ),
     );
   }
-
 }
 
 class _loginTextField extends StatelessWidget {
@@ -73,17 +76,19 @@ class _loginTextField extends StatelessWidget {
       buildWhen: (previous, current) => previous.username != current.username,
       builder: (context, state) {
         return TextField(
-          onChanged: (value)
-            => context.read<LoginBloc>().add(LoginUsernameChanged(value)),
+          onChanged: (value) =>
+              context.read<LoginBloc>().add(LoginUsernameChanged(value)),
           key: const Key('_loginTextField_Authentication_Page'),
           textAlign: TextAlign.center,
           decoration: InputDecoration(
-            hintText: "Enter your username",
+            hintText: S.of(context).Enter_your_username,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(100.0),
             ),
             filled: true,
-            errorText: state.username.invalid ? "Minimum is 4 characters" : null,
+            errorText: state.username.invalid
+                ? S.of(context).Minimum_4_characters
+                : null,
           ),
         );
       },
@@ -99,17 +104,19 @@ class _passTextField extends StatelessWidget {
       builder: (context, state) {
         return TextField(
           obscureText: true,
-          onChanged: (value)
-          => context.read<LoginBloc>().add(LoginPasswordChanged(value)),
+          onChanged: (value) =>
+              context.read<LoginBloc>().add(LoginPasswordChanged(value)),
           key: const Key('_passTextField_Authentication_Page'),
           textAlign: TextAlign.center,
           decoration: InputDecoration(
-            hintText: "Enter your password",
+            hintText: S.of(context).Enter_your_password,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(100.0),
             ),
             filled: true,
-            errorText: state.password.invalid ? "Minimum is 8 characters" : null,
+            errorText: state.password.invalid
+                ? S.of(context).Minimum_8_characters
+                : null,
           ),
         );
       },

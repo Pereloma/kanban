@@ -1,0 +1,12 @@
+{"@@locale": "ru",
+  "Authentication_Fail" : "Не удалось Авторизоваться",
+  "Log_In" : "Войти",
+  "Enter_your_username" : "Введите имя пользователя",
+  "Minimum_4_characters" : "Минимум 4 символа",
+  "Enter_your_password" : "Введите ваш пароль",
+  "Minimum_8_characters" : "Минимум 8 символов",
+  "On_hold" : "В ожидании",
+  "In_progress" : "В процессе",
+  "Needs_review" : "Требуют проверки",
+  "Approved" : "Одобренны"
+}

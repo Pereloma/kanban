@@ -8,6 +8,7 @@ import 'package:kanban/buisnes/login/login_bloc.dart';
 import 'package:kanban/buisnes/models/card.dart';
 import 'package:kanban/data/authentication_repository.dart';
 import 'package:kanban/data/cards_repository.dart';
+import 'package:kanban/generated/l10n.dart';
 
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
@@ -18,68 +19,88 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CardBloc _cardBloc = CardBloc(CardsRepository());
-    return DefaultTabController(
-      key: const Key("_Home_DefaultTabController"),
-      initialIndex: 0,
-      length: 4,
-      child: Scaffold(
-        appBar: AppBar(
-          actions: <Widget>[
-            FloatingActionButton(
-              child: const Icon(Icons.arrow_back),
-              onPressed: () {
-                context
-                    .read<AuthenticationBloc>()
-                    .add(AuthenticationLogoutRequested());
-              },
-            )
-          ],
-          bottom: const TabBar(
-            tabs: <Widget>[
-              Tab(
-                text: 'On hold',
+    return RepositoryProvider(
+      create: (context) => CardBloc(CardsRepository()),
+      child: DefaultTabController(
+        key: const Key("_Home_DefaultTabController"),
+        initialIndex: 0,
+        length: 4,
+        child: Builder(builder: (context) {
+          final tabController = DefaultTabController.of(context)!;
+          tabController.addListener(() {
+            //RepositoryProvider.of<CardBloc>(context).add(CardEvent(RowCardsStatus.values[tabController.index]));
+          });
+          return Scaffold(
+            appBar: AppBar(
+              actions: <Widget>[
+                FloatingActionButton(
+                  child: const Icon(Icons.arrow_back),
+                  onPressed: () {
+                    context
+                        .read<AuthenticationBloc>()
+                        .add(AuthenticationLogoutRequested());
+                  },
+                )
+              ],
+              bottom: TabBar(
+                tabs: <Widget>[
+                  Tab(
+                    text: S.of(context).On_hold,
+                  ),
+                  Tab(
+                    text: S.of(context).In_progress,
+                  ),
+                  Tab(
+                    text: S.of(context).Needs_review,
+                  ),
+                  Tab(
+                    text: S.of(context).Approved,
+                  ),
+                ],
+               // onTap: (value) => RepositoryProvider.of<CardBloc>(context).add(CardEvent(RowCardsStatus.values[value])),
               ),
-              Tab(
-                text: 'In progress',
-              ),
-              Tab(
-                text: 'Needs review',
-              ),
-              Tab(
-                text: 'Approved',
-              ),
-            ],
-          ),
-        ),
-        body: TabBarView(
-          children: List.filled(4, _ListCard(_cardBloc)),
-        ),
+            ),
+            body: const TabBarView(
+              children: [
+                _ListCard(RowCardsStatus.onHold),
+                _ListCard(RowCardsStatus.inProgress),
+                _ListCard(RowCardsStatus.needsReview),
+                _ListCard(RowCardsStatus.approved)
+              ],
+            ),
+          );
+        }),
       ),
     );
   }
 }
 
 class _ListCard extends StatelessWidget {
-  const _ListCard(this._cardBloc);
-  final CardBloc _cardBloc;
+  const _ListCard(this.rowCardsStatus);
+
+  final RowCardsStatus rowCardsStatus;
 
   @override
   Widget build(BuildContext context) {
-    _cardBloc.add(CardEvent(RowCardsStatus.values[DefaultTabController.of(context)!.index]));
+    CardBloc _cardBloc = RepositoryProvider.of<CardBloc>(context);
+    _cardBloc.add(CardEvent(rowCardsStatus));
     return BlocBuilder<CardBloc, CardState>(
-      bloc: _cardBloc,
+        buildWhen: (previous, current) =>
+            current.isLoad[rowCardsStatus] == false &&
+            previous.cardList != current.cardList,
+        bloc: _cardBloc,
         builder: (context, state) {
-      if (state.isLoad) {
-        return const Center(child: CircularProgressIndicator());
-      }
-      return ListView.builder(
-        itemCount: state.cardList!.length,
-        itemBuilder: (context, index) {
-          return _Card(state.cardList![index]);
-        },
-      );
-    });
+          if (state.isLoad[rowCardsStatus] ?? true) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          List<KCard> cardList = [...?state.cardList];
+          return ListView.builder(
+            itemCount: cardList.length,
+            itemBuilder: (context, index) {
+              return _Card(cardList[index]);
+            },
+          );
+        });
   }
 }
 

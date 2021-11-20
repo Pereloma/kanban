@@ -1,0 +1,12 @@
+{"@@locale": "en",
+  "Authentication_Fail" : "Authentication Fail",
+  "Log_In" : "Log In",
+  "Enter_your_username" : "Enter your username",
+  "Minimum_4_characters" : "Minimum is 4 characters",
+  "Enter_your_password" : "Enter your password",
+  "Minimum_8_characters" : "Minimum is 8 characters",
+  "On_hold" : "On hold",
+  "In_progress" : "In progress",
+  "Needs_review" : "Needs review",
+  "Approved" : "Approved"
+}

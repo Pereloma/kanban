@@ -1,10 +1,18 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
-import 'package:kanban/buisnes/models/card.dart';
+import 'package:hive/hive.dart';
 import 'package:kanban/data/user_repository.dart';
 
-enum RowCardsStatus { onHold , inProgress, needsReview, approved }
+
+
+@HiveType(typeId: 1)
+enum RowCardsStatus {
+  onHold,
+  inProgress,
+  needsReview,
+  approved
+}
 
 class CardsRepository {
   final _dio = Dio();
