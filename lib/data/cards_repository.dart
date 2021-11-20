@@ -12,7 +12,7 @@ class CardsRepository {
 
   Future<List<Map<String,dynamic>>> getMapCards(RowCardsStatus rowCardsStatus) async {
     String authorization = "JWT ${(await UserRepository.getUser())!.token}";
-    Response<List<Map<String,dynamic>>> res = await _dio.get(
+    Response<List> res = await _dio.get(
       "https://trello.backend.tests.nekidaem.ru/api/v1/cards/",
       queryParameters: {
         "row": "${rowCardsStatus.index}"
@@ -24,7 +24,7 @@ class CardsRepository {
         },
       ),
     );
-    return res.data??[];
+    return res.data!.cast<Map<String,dynamic>>();
   }
 
 
