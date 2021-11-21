@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:kanban/buisnes/authentication/authentication_bloc.dart';
-import 'package:kanban/buisnes/models/card.dart';
 import 'package:kanban/data/authentication_repository.dart';
 import 'package:kanban/data/user_repository.dart';
 import 'package:kanban/generated/l10n.dart';
+import 'package:kanban/models/card.dart';
 import 'package:kanban/ui/authentication.dart';
 import 'package:kanban/ui/home.dart';
 import 'package:kanban/ui/loading_page.dart';
@@ -49,6 +49,8 @@ class KanbanApp extends StatelessWidget {
 }
 
 class AppView extends StatefulWidget{
+  const AppView({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() => _AppViewState();
 }

@@ -42,9 +42,9 @@ class Authentication extends StatelessWidget {
               child: ListView(
                 padding: const EdgeInsets.all(32.0),
                 children: [
-                  _loginTextField(),
+                  _LoginTextField(),
                   const Padding(padding: EdgeInsets.all(8.0)),
-                  _passTextField(),
+                  _PassTextField(),
                   const Padding(padding: EdgeInsets.all(16.0)),
                   BlocBuilder<LoginBloc, LoginState>(
                     buildWhen: (previous, current) =>
@@ -69,7 +69,7 @@ class Authentication extends StatelessWidget {
   }
 }
 
-class _loginTextField extends StatelessWidget {
+class _LoginTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LoginBloc, LoginState>(
@@ -96,7 +96,7 @@ class _loginTextField extends StatelessWidget {
   }
 }
 
-class _passTextField extends StatelessWidget {
+class _PassTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LoginBloc, LoginState>(

@@ -1,12 +1,10 @@
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:formz/formz.dart';
-import 'package:kanban/buisnes/models/password.dart';
-import 'package:kanban/buisnes/models/username.dart';
 import 'package:kanban/data/authentication_repository.dart';
+import 'package:kanban/models/password.dart';
+import 'package:kanban/models/username.dart';
 import 'package:meta/meta.dart';
 
 part 'login_event.dart';

@@ -1,14 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:formz/formz.dart';
 import 'package:kanban/buisnes/authentication/authentication_bloc.dart';
 import 'package:kanban/buisnes/cards/card_bloc.dart';
-import 'package:kanban/buisnes/login/login_bloc.dart';
-import 'package:kanban/buisnes/models/card.dart';
-import 'package:kanban/data/authentication_repository.dart';
 import 'package:kanban/data/cards_repository.dart';
 import 'package:kanban/generated/l10n.dart';
+import 'package:kanban/models/card.dart';
 
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
@@ -121,9 +118,9 @@ class _Card extends StatelessWidget {
           children: [
             Text(
               "ID $id",
-              style: TextStyle(fontSize: 10, color: Colors.grey),
+              style: const TextStyle(fontSize: 10, color: Colors.grey),
             ),
-            SizedBox(height: 4),
+            const SizedBox(height: 4),
             Text(text),
           ],
         ),

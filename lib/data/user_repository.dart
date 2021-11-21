@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
+import 'package:kanban/models/user.dart';
 
 class UserRepository {
   static User? _user;
@@ -16,13 +17,3 @@ class UserRepository {
   }
 }
 
-class User extends Equatable{
-  const User(this.token);
-
-  final String token;
-
-  @override
-  List<Object> get props => [token];
-
-  static const empty = User('-');
-}

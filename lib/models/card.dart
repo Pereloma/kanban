@@ -5,6 +5,14 @@ import 'package:kanban/data/cards_repository.dart';
 
 part 'card.g.dart';
 
+@HiveType(typeId: 1)
+enum RowCardsStatus {
+  onHold,
+  inProgress,
+  needsReview,
+  approved
+}
+
 @immutable
 @HiveType(typeId: 0)
 class KCard extends Equatable {
@@ -22,6 +30,12 @@ class KCard extends Equatable {
 
 
   const KCard({required this.id, required this.row, required this.seqNum, required this.text});
+
+  factory KCard.fromJson(Map<String, dynamic> json) => KCard.m(
+      id: json['id'],
+      row: json['row'],
+      seqNum: json['seq_num'],
+      text: json['text']);
 
   @override
   List<Object?> get props => [id,row,seqNum,text];

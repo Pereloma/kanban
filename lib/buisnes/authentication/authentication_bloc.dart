@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:kanban/data/authentication_repository.dart';
 import 'package:kanban/data/user_repository.dart';
+import 'package:kanban/models/user.dart';
 import 'package:meta/meta.dart';
 
 part 'authentication_event.dart';
